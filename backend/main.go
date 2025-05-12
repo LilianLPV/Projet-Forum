@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"forum/backend/handlers"
 	"net/http"
-	"Projet-Forum/backend/handlers" // Import du package handlers
 )
 
 func main() {

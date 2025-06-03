@@ -1,9 +1,7 @@
 package config
 
 import (
-	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"os"
 )
 
 /*
@@ -24,14 +22,3 @@ func test() {
 	println(dbport, dbName)
 }
 */
-
-var DbContext *sql.DB
-
-func InitDB() {
-	user := os.Getenv("DB_USER")
-	pwd := os.Getenv("DB_PASSWORD")
-	host := os.Getenv("DB_HOST")
-	dbName := os.Getenv("DB_NAME")
-	dbPort := os.Getenv("DB_PORT")
-
-}

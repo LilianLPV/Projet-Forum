@@ -1,0 +1,30 @@
+        /* CSS pour coller le footer en bas */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Le contenu principal prend tout l'espace disponible */
+        .main-content {
+            flex: 1;
+        }
+        
+        /* Le footer reste en bas */
+        footer {
+            margin-top: auto;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }

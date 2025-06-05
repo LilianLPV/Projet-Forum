@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+body>main{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.block-text {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    width: 600px;
+    display: block;
+}
+
+.button-home {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+
+}
+
+.button-like {
+    height: auto;
+    width: 50px;
+    cursor: pointer;
+        background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.button-dislike {
+        height: auto;
+    width: 50px;
+    cursor: pointer;
+        background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.button-comment {
+        height: auto;
+    width: auto;
+    cursor: pointer;
+        background-color: white;
+    border: none;
+    border-radius: 10px;
+}

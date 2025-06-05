@@ -7,7 +7,9 @@ nav {
     background-color: black;
     display: flex;
     align-items: center;
-    justify-content: space-between;}
+    justify-content: space-between;
+    text-decoration: none;
+}
 
 .riotgamelogo{
     height: auto;
@@ -31,4 +33,17 @@ nav {
     height: auto;
     width: 70px;
     cursor: pointer;
+}
+
+#photo-de-profil {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+#menu-profil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

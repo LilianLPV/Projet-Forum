@@ -1,0 +1,60 @@
+{{define "accueil"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+    <link rel="stylesheet" href="/static/css/home.css">
+    <title>Home</title>
+</head>
+
+<body>
+    {{template "header"}}
+    <main>
+        <div class="block-text">
+            <h3 class="tag">Tag du post </h3>
+            <h1 class="title-post">Title of post</h1>
+            <p class="text-post">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit saepe suscipit quas itaque
+                quasi earum magnam,
+                non aliquam architecto, ab voluptatibus accusamus possimus nam repellendus? Provident cum sint quaerat
+                accusamus?</p>
+            <div class="button-home">
+                <button class="button-like"> <img src="/static/image/poucebleu.png" alt="Like" class="like"></button>
+                <button class="button-dislike"> <img src="/static/image/poucerouge.png" alt="Dislike"
+                        class="dislike"></button>
+                <button class="button-comment"> <img src="/static/image/commentaire.png" alt="comment"
+                        class="comment"></button>
+            </div>
+        </div>
+
+          <div class="block-text">
+            <h3 class="tag">Tag du post </h3>
+            <h1 class="title-post">Title of post</h1>
+            <p class="text-post">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit saepe suscipit quas itaque
+                quasi earum magnam,
+                non aliquam architecto, ab voluptatibus accusamus possimus nam repellendus? Provident cum sint quaerat
+                accusamus?</p>
+            <div class="button-home">
+                <button class="button-like"> <img src="/static/image/poucebleu.png" alt="Like" class="like"></button>
+                <button class="button-dislike"> <img src="/static/image/poucerouge.png" alt="Dislike"
+                        class="dislike"></button>
+                <button class="button-comment"> <img src="/static/image/commentaire.png" alt="comment"
+                        class="comment"></button>
+            </div>
+        </div>
+
+
+
+
+    </main>
+    {{template "footer"}}
+</body>
+
+</html>
+{{end}}

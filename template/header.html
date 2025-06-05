@@ -8,25 +8,28 @@
     <link rel="stylesheet" href="/static/css/header.css">
     <title>header</title>
 </head>
-
-<body>
-    <header class="main-header" id="header">
-        <nav>
-            <a href="/">
-                <img src="/static/image/riotgame logo.png" class="riotgamelogo" alt="logo riot">
-                <img src="/static/image/logo_tft.png" class="tftlogo" alt="logo tft ">
-            </a>
-            <p>BARRE DE RECHERCHE</p>
-            <a href="/créer-poste">
-                <img src="/static/image/Bouton-créer.png" class="creerlogo" alt="Bouton créer">
-            </a>
-            <a href="/profile">
-                <img src="/static/image/photodeprofil.png" class="photodeprofil" alt="photodeprofil">
-            </a>
-        </nav>
-        <!--logo lol et tft (redirige a l'accueil)      search bar                    boutton crée(redirige vers la page pour crée un post)    pdp (redirige vers ton profil)-->
-    </header>
-</body>
+<header class="main-header" id="header">
+    <nav>
+        <a href="/">
+            <img src="/static/image/riotgame logo.png" class="riotgamelogo" alt="logo riot">
+            <img src="/static/image/logo_tft.png" class="tftlogo" alt="logo tft ">
+        </a>
+        <p>Rechercher sur TFT Reddit</p>
+        <a href="/créer-poste">
+            <img src="/static/image/Bouton-créer.png" class="creerlogo" alt="Bouton créer">
+        </a>
+        <div class="photo-de-profil" id="photo-de-profil">
+            <img src="/static/image/photodeprofil.png" class="photodeprofil" alt="photodeprofil" id="photo-de-profil">
+            <div class="menu-profil" id="menu-profil">
+                <a href="/profil">My account</a>
+                <a href="/">Deconnexion</a>
+                <a href="/friend">Friend</a>
+            </div>
+        </div>
+    </nav>
+    <script src="/js/menu-profil.js"></script>
+    <!--logo lol et tft (redirige a l'accueil)      search bar (pour rechercher un post )                   boutton crée(redirige vers la page pour crée un post)    pdp (redirige vers ton profil)-->
+</header>
 
 </html>
 {{end}}

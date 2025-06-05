@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Menu Hamburger</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+  }
+  .menu li {
+    margin: 10px 0;
+  }
+  .hamburger {
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="hamburger">&#9776;</div> <!-- icône hamburger -->
+<ul class="menu">
+  <li><a href="#">Accueil</a></li>
+  <li><a href="#">Profil</a></li>
+  <li><a href="#">À propos</a></li>
+  <li><a href="#">Contact</a></li>
+</ul>
+
+<script>
+  const hamburger = document.querySelector('.hamburger');
+  const menu = document.querySelector('.menu');
+
+  hamburger.addEventListener('click', () => {
+    if (menu.style.display === 'block') {
+      menu.style.display = 'none';
+      hamburger.innerHTML = '&#9776;'; // icône hamburger
+    } else {
+      menu.style.display = 'block';
+      hamburger.innerHTML = '&times;'; // icône croix
+    }
+  });
+</script>
+
+</body>
+</html>

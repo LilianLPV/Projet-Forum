@@ -13,6 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #181C1F;
 }
 
 .main-content {
@@ -21,13 +22,13 @@ body {
 
 footer {
     margin-top: auto;
-    background-color: black;
+    background-color: #0f1113;
     color: white;
     padding: 20px;
     text-align: center;
 }
 
-body>main{
+body>main {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -42,38 +43,35 @@ body>main{
     padding: 20px;
     width: 600px;
     display: block;
-}
-
-.button-home {
-    height: 100%;
-    width: 100%;
-    cursor: pointer;
-
+    border-radius: 30px;
+    background-color: #27282a;
+    color: white;
+    margin-top: 20px;
 }
 
 .button-like {
-    height: auto;
+    height: 50px;
     width: 50px;
     cursor: pointer;
-        background-color: white;
+    background-color: #27282a;
     border: none;
     border-radius: 10px;
 }
 
 .button-dislike {
-        height: auto;
+    height: 50px;
     width: 50px;
     cursor: pointer;
-        background-color: white;
+    background-color: #27282a;
     border: none;
     border-radius: 10px;
 }
 
 .button-comment {
-        height: auto;
-    width: auto;
+    height: 50px;
+    width: 50px;
     cursor: pointer;
-        background-color: white;
+    background-color: #27282a;
     border: none;
     border-radius: 10px;
 }

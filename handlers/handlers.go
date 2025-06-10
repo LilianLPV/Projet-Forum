@@ -16,3 +16,7 @@ func AccueilHandler(w http.ResponseWriter, r *http.Request) {
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "register", nil)
 }
+
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	templates.ExecuteTemplate(w, "login", nil)
+}

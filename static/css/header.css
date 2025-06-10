@@ -72,12 +72,16 @@
     gap: 20px;
 }
 
-a {
+.link {
     color: white;
     text-decoration: none;
     list-style: none;
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
 
 .barre {
     color: white;

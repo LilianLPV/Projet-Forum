@@ -3,10 +3,12 @@
     padding: 0;
 }
 
-nav {
-    color: white;
+.footer-nav {
+    background-color: #0f1113;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     text-decoration: none;
-    
 }
 /*nav {    
     background-color: black;

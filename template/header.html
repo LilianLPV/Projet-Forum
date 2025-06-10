@@ -9,25 +9,34 @@
     <title>header</title>
 </head>
 <header class="main-header" id="header">
-    <nav>
-        <a href="/">
-            <img src="/static/image/riotgame logo.png" class="riotgamelogo" alt="logo riot">
-            <img src="/static/image/logo_tft.png" class="tftlogo" alt="logo tft ">
-        </a>
-        <p>Rechercher sur TFT Reddit</p>
-        <a href="/créer-poste">
-            <img src="/static/image/Bouton-créer.png" class="creerlogo" alt="Bouton créer">
-        </a>
+    <nav class="header-nav">
+        <div class="logos-container">
+            <a href="/">
+                <img src="/static/image/riotgame_logo.png" class="riotgamelogo" alt="logo riot">
+                <img src="/static/image/logo_tft.png" class="tftlogo" alt="logo tft ">
+            </a>
+        </div>
+        <div class="center-container">
+            <p class="barre">Rechercher sur TFT Reddit</p>
+                 </div>
+            <div class="creer-container">
+                <a href="/créer-poste">
+                    <img src="/static/image/Bouton-créer.png" class="creerlogo" alt="Bouton créer">
+                </a>
+            </div>
+   
         <div class="photo-de-profil" id="photo-de-profil">
             <img src="/static/image/photodeprofil.png" class="photodeprofil" alt="photodeprofil" id="photo-de-profil">
             <div class="menu-profil" id="menu-profil">
-                <a href="/profil">My account</a>
-                <a href="/">Deconnexion</a>
-                <a href="/friend">Friend</a>
+                <a href="/profil" class="link">My account</a>
+                <a href="/login" class="link">Register / Login </a>
+                <a href="/friend" class="link">Friend</a>
+                <a href="/" class="button-disconnect" class="link"><img src="/static/image/se-deconnecter-logo.png" class="bouton-se-deconnecter" alt="bouton se déconnecter">Disconnect</a>
+
             </div>
         </div>
     </nav>
-    <script src="/js/menu-profil.js"></script>
+    <script src="/static/js/menu-profil.js"></script>
     <!--logo lol et tft (redirige a l'accueil)      search bar (pour rechercher un post )                   boutton crée(redirige vers la page pour crée un post)    pdp (redirige vers ton profil)-->
 </header>
 

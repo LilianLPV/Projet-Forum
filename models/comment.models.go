@@ -1,10 +1,8 @@
 package models
 
-import "time"
-
 type Comment struct {
 	Id        int
-	date      time.Time
+	date      string
 	content   string
 	commentId int
 	postId    int

@@ -61,6 +61,43 @@ input[type="password"]:focus {
   border: 2px solid #4a90e2;
 }
 
+.password-container {
+    margin-bottom: 1rem;
+}
+
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.toggle-password svg {
+    width: 20px;
+    height: 20px;
+}
 
 button {
   padding: 0.5rem;

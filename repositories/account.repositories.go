@@ -16,10 +16,10 @@ func InitAccountRepositories(db *sql.DB) *AccountRepositories {
 }
 
 func (r *AccountRepositories) Createaccount(Account models.Account) (int, error) {
-	query := "INSERT INTO `account`(`user_id`,`user_name`,`user_password`,`user_email`,`user_profile_picture`,`user_bio`,`user_last_connection`) VALUES (?,?,?,?,?,?,?);"
+	query := "INSERT INTO `account`(`user_name`,`user_password`,`user_email`,`user_profile_picture`,`user_bio`,`user_last_connection`) VALUES (?,?,?,?,?,?);"
 
 	sqlResult, sqlErr := r.db.Exec(query,
-		Account.Id,
+		Account.Username,
 		Account.Password,
 		Account.Email,
 		Account.Profilepicture,
@@ -62,7 +62,7 @@ func (r *AccountRepositories) ReadAll() ([]models.Account, error) {
 
 func (r *AccountRepositories) ReadById(id int) (models.Account, error) {
 	var Account models.Account
-	sqlErr := r.db.QueryRow("SELECT * FROM `account` WHERE `account`.id = ?;", id).
+	sqlErr := r.db.QueryRow("SELECT user_id, user_name, user_password, user_email, user_profile_picture, user_bio, user_last_connection FROM `account` WHERE user_id = ?;", id).
 		Scan(&Account.Id, &Account.Username, &Account.Password, &Account.Email, &Account.Profilepicture, &Account.Bio, &Account.Lastconnection)
 
 	if sqlErr != nil {
@@ -74,9 +74,10 @@ func (r *AccountRepositories) ReadById(id int) (models.Account, error) {
 
 	return Account, nil
 }
+
 func (r *AccountRepositories) ReadByEmail(Email string) (models.Account, error) {
 	var Account models.Account
-	sqlErr := r.db.QueryRow("SELECT * FROM `account` WHERE `account`.Email = ?;", Email).
+	sqlErr := r.db.QueryRow("SELECT user_id, user_name, user_password, user_email, user_profile_picture, user_bio, user_last_connection FROM `account` WHERE user_email = ?;", Email).
 		Scan(&Account.Id, &Account.Username, &Account.Password, &Account.Email, &Account.Profilepicture, &Account.Bio, &Account.Lastconnection)
 
 	if sqlErr != nil {
@@ -88,9 +89,10 @@ func (r *AccountRepositories) ReadByEmail(Email string) (models.Account, error) 
 
 	return Account, nil
 }
+
 func (r *AccountRepositories) ReadByUsername(Username string) (models.Account, error) {
 	var Account models.Account
-	sqlErr := r.db.QueryRow("SELECT * FROM `account` WHERE `account`.Username = ?;", Username).
+	sqlErr := r.db.QueryRow("SELECT user_id, user_name, user_password, user_email, user_profile_picture, user_bio, user_last_connection FROM `account` WHERE user_name = ?;", Username).
 		Scan(&Account.Id, &Account.Username, &Account.Password, &Account.Email, &Account.Profilepicture, &Account.Bio, &Account.Lastconnection)
 
 	if sqlErr != nil {

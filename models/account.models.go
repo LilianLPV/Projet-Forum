@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type Account struct {
 	Id             int
 	Username       string
@@ -9,5 +7,5 @@ type Account struct {
 	Email          string
 	Profilepicture string
 	Bio            string
-	Lastconnection time.Time
+	Lastconnection string
 }

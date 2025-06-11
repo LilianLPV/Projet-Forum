@@ -12,3 +12,7 @@ func HashPassword(password string) string {
 	hashedPassword := hasher.Sum(nil)
 	return hex.EncodeToString(hashedPassword)
 }
+
+func ComparePasswords(hashedPassword, password string) bool {
+	return HashPassword(password) == hashedPassword
+}

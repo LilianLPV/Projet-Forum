@@ -1,7 +1,8 @@
 package controllers
 
 import (
-	"fmt"
+	"encoding/json"
+	"forum/auth"
 	"forum/hash"
 	"forum/models"
 	"forum/services"
@@ -20,28 +21,73 @@ func InitAccountController(service *services.AccountService, template *template.
 }
 
 func (c *AccountControllers) AccountRouter(r *mux.Router) {
-
+	r.HandleFunc("/", c.Home).Methods("GET")
+	r.HandleFunc("/register", c.CreateForm).Methods("GET")
 	r.HandleFunc("/login", c.LoginForm).Methods("GET")
+	r.HandleFunc("/register/treatment", c.Create).Methods("POST")
 	r.HandleFunc("/login/treatment", c.Login).Methods("POST")
-	r.HandleFunc("/signup", c.CreateForm).Methods("GET")
-	r.HandleFunc("/signup/treatment", c.Create).Methods("POST")
+	r.HandleFunc("/logout", c.Logout).Methods("POST")
+	r.HandleFunc("/profile", c.ProfilePage).Methods("GET")
 
-	r.HandleFunc("/", c.AuthMiddleware(c.Home)).Methods("GET")
+}
 
-	r.NotFoundHandler = http.HandlerFunc(c.NotFound)
-	r.HandleFunc("/unauthorized", c.Unauthorized).Methods("GET")
+func (c *AccountControllers) ProfilePage(w http.ResponseWriter, r *http.Request) {
+	token, err := r.Cookie("token")
+	if err != nil || token.Value == "" {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	claims, err := auth.ValidateToken(token.Value)
+	if err != nil {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	account, err := c.service.ReadById(claims.Sub)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération du profil", http.StatusInternalServerError)
+		return
+	}
+
+	data := struct {
+		Username       string
+		Email          string
+		Role           string
+		ProfilePicture string
+		Bio            string
+	}{
+		Username:       account.Username,
+		Email:          account.Email,
+		Role:           account.Role,
+		ProfilePicture: account.Profilepicture,
+		Bio:            account.Bio,
+	}
+
+	c.template.ExecuteTemplate(w, "profile", data)
 }
 
 func (c *AccountControllers) Home(w http.ResponseWriter, r *http.Request) {
-	cookie, _ := r.Cookie("session")
-	data := struct {
+	userData := struct {
 		IsLoggedIn bool
 		Username   string
-	}{
-		IsLoggedIn: cookie != nil && cookie.Value != "",
-		Username:   cookie.Value,
+		Role       string
+	}{}
+
+	token, err := r.Cookie("token")
+	if err == nil && token.Value != "" {
+		claims, err := auth.ValidateToken(token.Value)
+		if err == nil {
+			userData.IsLoggedIn = true
+			userData.Role = claims.Role
+			account, err := c.service.ReadById(claims.Sub)
+			if err == nil {
+				userData.Username = account.Username
+			}
+		}
 	}
-	c.template.ExecuteTemplate(w, "home", data)
+
+	c.template.ExecuteTemplate(w, "home", userData)
 }
 
 func (c *AccountControllers) CreateForm(w http.ResponseWriter, r *http.Request) {
@@ -53,13 +99,13 @@ func (c *AccountControllers) LoginForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *AccountControllers) Create(w http.ResponseWriter, r *http.Request) {
-
 	hashedpassword := hash.HashPassword(r.PostFormValue("password"))
 
 	newAccount := models.Account{
 		Username: r.FormValue("username"),
 		Email:    r.FormValue("email"),
 		Password: hashedpassword,
+		Role:     "user",
 	}
 
 	_, AccountErr := c.service.Create(newAccount)
@@ -68,7 +114,7 @@ func (c *AccountControllers) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, fmt.Sprintf("/login"), http.StatusMovedPermanently)
+	http.Redirect(w, r, "/login", http.StatusMovedPermanently)
 }
 
 func (c *AccountControllers) Login(w http.ResponseWriter, r *http.Request) {
@@ -81,35 +127,132 @@ func (c *AccountControllers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sessionCookie := &http.Cookie{
-		Name:     "session",
-		Value:    account.Username,
+	token, err := auth.GenerateToken(account.Id, account.Role)
+	if err != nil {
+		http.Error(w, "Error generating token", http.StatusInternalServerError)
+		return
+	}
+
+	cookie := &http.Cookie{
+		Name:     "token",
+		Value:    token,
 		Path:     "/",
-		MaxAge:   3600,
+		MaxAge:   86400,
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteStrictMode,
 	}
-	http.SetCookie(w, sessionCookie)
+	http.SetCookie(w, cookie)
 
-	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+	response := struct {
+		Username string `json:"username"`
+		Role     string `json:"role"`
+	}{
+		Username: account.Username,
+		Role:     account.Role,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
 
-func (c *AccountControllers) AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		cookie, err := r.Cookie("session")
-		if err != nil {
-			http.Redirect(w, r, "/unauthorized", http.StatusTemporaryRedirect)
-			return
-		}
+func (c *AccountControllers) CreatePost(w http.ResponseWriter, r *http.Request) {
+}
 
-		if cookie.Value == "" {
-			http.Redirect(w, r, "/unauthorized", http.StatusTemporaryRedirect)
-			return
-		}
+func (c *AccountControllers) GetPosts(w http.ResponseWriter, r *http.Request) {
+}
 
-		next.ServeHTTP(w, r)
+func (c *AccountControllers) GetPost(w http.ResponseWriter, r *http.Request) {
+}
+
+func (c *AccountControllers) UpdatePost(w http.ResponseWriter, r *http.Request) {
+}
+
+func (c *AccountControllers) DeletePost(w http.ResponseWriter, r *http.Request) {
+}
+
+func (c *AccountControllers) Profile(w http.ResponseWriter, r *http.Request) {
+	token, err := r.Cookie("token")
+	if err != nil || token.Value == "" {
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
+		return
 	}
+
+	claims, err := auth.ValidateToken(token.Value)
+	if err != nil {
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
+		return
+	}
+
+	account, err := c.service.ReadById(claims.Sub)
+	if err != nil {
+		http.Error(w, "Error retrieving profile", http.StatusInternalServerError)
+		return
+	}
+
+	response := struct {
+		Username       string
+		Email          string
+		Role           string
+		ProfilePicture string
+		Bio            string
+	}{
+		Username:       account.Username,
+		Email:          account.Email,
+		Role:           account.Role,
+		ProfilePicture: account.Profilepicture,
+		Bio:            account.Bio,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func (c *AccountControllers) UpdateProfile(w http.ResponseWriter, r *http.Request) {
+	token, err := r.Cookie("token")
+	if err != nil || token.Value == "" {
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
+		return
+	}
+
+	claims, err := auth.ValidateToken(token.Value)
+	if err != nil {
+		http.Error(w, "Non autorisé", http.StatusUnauthorized)
+		return
+	}
+
+	var updateData struct {
+		Bio string `json:"bio"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&updateData); err != nil {
+		http.Error(w, "Données invalides", http.StatusBadRequest)
+		return
+	}
+
+	err = c.service.UpdateProfile(claims.Sub, updateData.Bio)
+	if err != nil {
+		http.Error(w, "Erreur lors de la mise à jour du profil", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Profil mis à jour avec succès"})
+}
+
+func (c *AccountControllers) Logout(w http.ResponseWriter, r *http.Request) {
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   10,
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+	})
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func (c *AccountControllers) NotFound(w http.ResponseWriter, r *http.Request) {

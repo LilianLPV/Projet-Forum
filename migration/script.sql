@@ -3,6 +3,7 @@ CREATE TABLE account(
                         user_name VARCHAR(255) NOT NULL,
                         user_password VARCHAR(512) NOT NULL,
                         user_email VARCHAR(255) NOT NULL,
+                        user_role VARCHAR(255) NOT NULL DEFAULT "basic",
                         user_profile_picture VARCHAR(255) NOT NULL DEFAULT "none",
                         user_bio VARCHAR(255) NOT NULL DEFAULT "this is my bio.",
                         user_last_connection DATETIME NOT NULL,

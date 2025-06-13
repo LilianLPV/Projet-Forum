@@ -31,7 +31,6 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// Configuration des gestionnaires d'erreurs personnalisés
 	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		temp.ExecuteTemplate(w, "404", nil)
@@ -42,14 +41,11 @@ func main() {
 		temp.ExecuteTemplate(w, "401", nil)
 	})
 
-	// Configuration des routes
 	accountController.AccountRouter(router)
 
-	// Configuration des fichiers statiques
 	fs := http.FileServer(http.Dir("static/"))
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 
-	// Lancement du serveur
 	serveErr := http.ListenAndServe(":8080", router)
 	if serveErr != nil {
 		log.Fatalf("Erreur lancement serveur - %s", serveErr.Error())

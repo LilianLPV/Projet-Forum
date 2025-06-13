@@ -5,6 +5,7 @@ type Account struct {
 	Username       string
 	Password       string
 	Email          string
+	Role           string
 	Profilepicture string
 	Bio            string
 	Lastconnection string

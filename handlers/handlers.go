@@ -10,7 +10,7 @@ var (
 )
 
 func AccueilHandler(w http.ResponseWriter, r *http.Request) {
-	templates.ExecuteTemplate(w, "accueil", nil)
+	templates.ExecuteTemplate(w, "home", nil)
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,4 +19,8 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "login", nil)
+}
+
+func CreatepostHandler(w http.ResponseWriter, r *http.Request) {
+	templates.ExecuteTemplate(w, "create-post", nil)
 }

@@ -1,6 +1,6 @@
 package models
 
 type addtag struct {
-	Id    int
-	tagid int
+	feedid int
+	tagid  int
 }

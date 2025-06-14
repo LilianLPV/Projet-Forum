@@ -1,0 +1,79 @@
+{{define "profile"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - TFT Reddit</title>
+    <link rel="stylesheet" href="/static/css/profile.css">
+</head>
+<body>
+    {{template "header" .}}
+
+    <main class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img src="{{if .ProfilePicture}}{{.ProfilePicture}}{{else}}/static/image/photodeprofil.png{{end}}" alt="Photo de profil">
+                <button class="change-avatar-btn">Changer la photo</button>
+            </div>
+            <div class="profile-info">
+                <h1>{{.Username}}</h1>
+                <p class="role">{{.Role}}</p>
+                <p class="email">{{.Email}}</p>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-section">
+                <h2>À propos</h2>
+                <div class="bio-section">
+                    <p class="bio">{{if .Bio}}{{.Bio}}{{else}}Aucune bio pour le moment...{{end}}</p>
+                    <button class="edit-bio-btn">Modifier la bio</button>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2>Mes posts</h2>
+                <div class="posts-list" id="user-posts">
+                    <!-- Les posts seront chargés dynamiquement ici -->
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2>Statistiques</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="posts-count">0</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="comments-count">0</span>
+                        <span class="stat-label">Commentaires</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="likes-count">0</span>
+                        <span class="stat-label">Likes reçus</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal pour modifier la bio -->
+    <div class="modal" id="bio-modal">
+        <div class="modal-content">
+            <h2>Modifier la bio</h2>
+            <textarea id="bio-input" maxlength="500">{{.Bio}}</textarea>
+            <div class="modal-buttons">
+                <button class="cancel-btn">Annuler</button>
+                <button class="save-btn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    {{template "footer" .}}
+
+
+</body>
+</html>
+{{end}}

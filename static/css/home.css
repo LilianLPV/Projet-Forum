@@ -73,3 +73,17 @@ body>main {
     border: none;
     border-radius: 10px;
 }
+
+.welcome-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.welcome-message h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}

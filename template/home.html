@@ -17,6 +17,11 @@
 <body>
     {{template "header"}}
     <main>
+        {{if .IsLoggedIn}}
+        <div class="welcome-message">
+            <h2>Bienvenue {{.Username}} ! Vous êtes connecté.</h2>
+        </div>
+        {{end}}
         <div class="block-text">
             <h3 class="tag">Tag du post </h3>
             <h1 class="title-post">Title of post</h1>

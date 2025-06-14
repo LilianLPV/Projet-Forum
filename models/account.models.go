@@ -1,13 +1,12 @@
 package models
 
-import "time"
-
 type Account struct {
 	Id             int
 	Username       string
 	Password       string
 	Email          string
+	Role           string
 	Profilepicture string
 	Bio            string
-	Lastconnection time.Time
+	Lastconnection string
 }

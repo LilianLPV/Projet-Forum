@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: #181a1b url('/static/image/Background404.png') no-repeat center 60% fixed;
+    background: #181a1b url('/static/image/Background401.png') no-repeat center 60% fixed;
     background-size: 70%; /* Rétrécit l'image */
     background-repeat: no-repeat;
     background-position: center 60%; /* Centre horizontalement, ajuste verticalement */

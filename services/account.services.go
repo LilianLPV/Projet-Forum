@@ -26,12 +26,12 @@ func (s *AccountService) Create(Account models.Account) (int, error) {
 	}
 
 	_, usernameErr := s.AccountRepo.ReadByUsername(Account.Username)
-	if usernameErr == nil {
+	if usernameErr != nil {
 		return -1, fmt.Errorf("Failed to add account - Username already taken")
 	}
 
 	_, emailErr := s.AccountRepo.ReadByEmail(Account.Email)
-	if emailErr == nil {
+	if emailErr != nil {
 		return -1, fmt.Errorf("Failed to add account - Email already registered")
 	}
 

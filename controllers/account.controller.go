@@ -22,9 +22,9 @@ func InitAccountController(service *services.AccountService, template *template.
 
 func (c *AccountControllers) AccountRouter(r *mux.Router) {
 	r.HandleFunc("/", c.Home).Methods("GET")
-	r.HandleFunc("/register", c.CreateForm).Methods("GET")
+	r.HandleFunc("/signup", c.CreateForm).Methods("GET")
 	r.HandleFunc("/login", c.LoginForm).Methods("GET")
-	r.HandleFunc("/register/treatment", c.Create).Methods("POST")
+	r.HandleFunc("/signup/treatment", c.Create).Methods("POST")
 	r.HandleFunc("/login/treatment", c.Login).Methods("POST")
 	r.HandleFunc("/logout", c.Logout).Methods("POST")
 	r.HandleFunc("/profile", c.ProfilePage).Methods("GET")
@@ -91,7 +91,7 @@ func (c *AccountControllers) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *AccountControllers) CreateForm(w http.ResponseWriter, r *http.Request) {
-	c.template.ExecuteTemplate(w, "register", nil)
+	c.template.ExecuteTemplate(w, "signup", nil)
 }
 
 func (c *AccountControllers) LoginForm(w http.ResponseWriter, r *http.Request) {

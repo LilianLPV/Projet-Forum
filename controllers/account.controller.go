@@ -143,7 +143,7 @@ func (c *AccountControllers) Login(w http.ResponseWriter, r *http.Request) {
 		Path:     "/",
 		MaxAge:   86400,
 		HttpOnly: true,
-		Secure:   true,
+		Secure:   false,
 		SameSite: http.SameSiteStrictMode,
 	}
 	http.SetCookie(w, cookie)
@@ -158,6 +158,7 @@ func (c *AccountControllers) Login(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (c *AccountControllers) CreatePost(w http.ResponseWriter, r *http.Request) {
@@ -250,13 +251,12 @@ func (c *AccountControllers) Logout(w http.ResponseWriter, r *http.Request) {
 		Name:     "token",
 		Value:    "",
 		Path:     "/",
-		MaxAge:   10,
+		MaxAge:   -1,
 		HttpOnly: true,
-		Secure:   true,
+		Secure:   false,
 		SameSite: http.SameSiteStrictMode,
 	})
-
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (c *AccountControllers) NotFound(w http.ResponseWriter, r *http.Request) {

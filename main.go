@@ -26,8 +26,11 @@ func main() {
 		log.Fatalf("Erreur chargement serveur - %s", tempErr.Error())
 	}
 
-	AccountService := services.InitAccountService(db)
-	accountController := controllers.InitAccountController(AccountService, temp)
+	accountService := services.InitAccountService(db)
+	accountController := controllers.InitAccountController(accountService, temp)
+
+	feedService := services.InitFeedService(db)
+	feedController := controllers.InitFeedController(feedService, temp)
 
 	router := mux.NewRouter()
 
@@ -42,6 +45,7 @@ func main() {
 	})
 
 	accountController.AccountRouter(router)
+	feedController.FeedRouter(router)
 
 	fs := http.FileServer(http.Dir("static/"))
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))

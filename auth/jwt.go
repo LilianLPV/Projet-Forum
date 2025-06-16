@@ -3,7 +3,7 @@ package auth
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
-	"os"
+	// "os" // Commenté pour le débogage
 	"time"
 )
 
@@ -31,20 +31,20 @@ func GenerateToken(userID int, role string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	secretKey := []byte(os.Getenv("JWT_SECRET"))
-	if len(secretKey) == 0 {
-		secretKey = []byte("secret_key_default")
-	}
+	secretKey := []byte("secret_key_default") // Forcé pour le débogage
+	// if len(secretKey) == 0 {
+	// 	secretKey = []byte("secret_key_default")
+	// }
 
 	return token.SignedString(secretKey)
 }
 
 func ValidateToken(tokenString string) (*Claims, error) {
 	claims := &Claims{}
-	secretKey := []byte(os.Getenv("JWT_SECRET"))
-	if len(secretKey) == 0 {
-		secretKey = []byte("secret_key_default")
-	}
+	secretKey := []byte("secret_key_default") // Forcé pour le débogage
+	// if len(secretKey) == 0 {
+	// 	secretKey = []byte("secret_key_default")
+	// }
 
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return secretKey, nil

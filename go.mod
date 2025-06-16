@@ -1,6 +1,6 @@
 module forum
 
-go 1.24.3
+go 1.22.0
 
 require (
 	github.com/go-sql-driver/mysql v1.9.2

@@ -6,5 +6,10 @@ type Feed struct {
 	Description string
 	State       string
 	CreatedDate string
-	userid      int
+	UserID      int
+}
+
+type FeedWithAuthor struct {
+	Feed
+	AuthorName string
 }

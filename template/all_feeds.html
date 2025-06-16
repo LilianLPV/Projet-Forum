@@ -1,0 +1,128 @@
+{{define "all_feeds"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tous les Feeds</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    {{template "header" .}}
+    <div class="container">
+        <div class="header">
+            <h1>Tous les Feeds</h1>
+            <div class="header-actions">
+                <a href="/feeds/user" class="button">Mes Feeds</a>
+                <a href="/feeds" class="button primary">Créer un Feed</a>
+            </div>
+        </div>
+
+        <div class="feeds-filters">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Rechercher un feed...">
+            </div>
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="stateFilter">État:</label>
+                    <select id="stateFilter">
+                        <option value="all">Tous les états</option>
+                        <option value="open">Ouverts</option>
+                        <option value="closed">Fermés</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sortFilter">Trier par:</label>
+                    <select id="sortFilter">
+                        <option value="date_desc">Plus récent</option>
+                        <option value="date_asc">Plus ancien</option>
+                        <option value="title_asc">Titre (A-Z)</option>
+                        <option value="title_desc">Titre (Z-A)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="feeds-list" id="feedsList">
+            {{range .Feeds}}
+            <a href="/feeds/{{.Id}}" class="feed-card" data-state="{{.State}}" data-date="{{.CreatedDate}}">
+                <div class="feed-content">
+                    <h2>{{.Title}}</h2>
+                    <p class="feed-description">{{.Description}}</p>
+                    <div class="feed-meta">
+                        <p>Créé le {{.CreatedDate}} par <strong>{{.AuthorName}}</strong></p>
+                        <p>État: <span class="feed-state {{.State}}">{{.State}}</span></p>
+                    </div>
+                    <div class="feed-tags">
+                        {{range .Tags}}
+                        <span class="tag">{{.Name}}</span>
+                        {{end}}
+                    </div>
+                </div>
+            </a>
+            {{end}}
+        </div>
+    </div>
+
+    <script>
+        // Filtrage et tri des feeds
+        const searchInput = document.getElementById('searchInput');
+        const stateFilter = document.getElementById('stateFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        const feedsList = document.getElementById('feedsList');
+
+        function filterAndSortFeeds() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedState = stateFilter.value;
+            const sortBy = sortFilter.value;
+
+            const feedCards = Array.from(feedsList.getElementsByClassName('feed-card'));
+            
+            // Filtrer les feeds
+            const filteredFeeds = feedCards.filter(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                const description = card.querySelector('.feed-description').textContent.toLowerCase();
+                const state = card.dataset.state;
+
+                const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+                const matchesState = selectedState === 'all' || state === selectedState;
+
+                return matchesSearch && matchesState;
+            });
+
+            // Trier les feeds
+            filteredFeeds.sort((a, b) => {
+                const titleA = a.querySelector('h2').textContent;
+                const titleB = b.querySelector('h2').textContent;
+                const dateA = new Date(a.dataset.date);
+                const dateB = new Date(b.dataset.date);
+
+                switch(sortBy) {
+                    case 'date_desc':
+                        return dateB - dateA;
+                    case 'date_asc':
+                        return dateA - dateB;
+                    case 'title_asc':
+                        return titleA.localeCompare(titleB);
+                    case 'title_desc':
+                        return titleB.localeCompare(titleA);
+                    default:
+                        return 0;
+                }
+            });
+
+            // Réorganiser les feeds dans le DOM
+            feedsList.innerHTML = '';
+            filteredFeeds.forEach(card => {
+                feedsList.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener('input', filterAndSortFeeds);
+        stateFilter.addEventListener('change', filterAndSortFeeds);
+        sortFilter.addEventListener('change', filterAndSortFeeds);
+    </script>
+    {{template "footer" .}}
+</body>
+</html>
+{{end}} 

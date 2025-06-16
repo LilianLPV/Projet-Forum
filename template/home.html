@@ -1,6 +1,6 @@
 {{define "home"}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -10,81 +10,42 @@
     <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/static/favicon/site.webmanifest" />
-    <link rel="stylesheet" href="/static/css/home.css">
-    <title>Home</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Forum</title>
 </head>
 
 <body>
-    {{template "header"}}
-    <main>
-        {{if .IsLoggedIn}}
-        <div class="welcome-message">
-            <h2>Bienvenue {{.Username}} ! Vous êtes connecté.</h2>
-        </div>
-        {{end}}
-        <div class="block-text">
-            <h3 class="tag">Tag du post </h3>
-            <h1 class="title-post">Title of post</h1>
-            <p class="text-post">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit saepe suscipit quas
-                itaque
-                quasi earum magnam,
-                non aliquam architecto, ab voluptatibus accusamus possimus nam repellendus? Provident cum sint quaerat
-                accusamus?</p>
-            <div class="button-home">
-                <button class="button-like"><svg width="24px" height="24px" viewBox="0 0 24 24" fill="blue"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z" />
-                    </svg>
-                </button>
-                <button class="button-dislike"><svg width="24px" height="24px" viewBox="0 0 24 24" fill="red"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M20.901 10.566A1.001 1.001 0 0 0 20 10h-4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v7H4a1.001 1.001 0 0 0-.781 1.625l8 10a1 1 0 0 0 1.562 0l8-10c.24-.301.286-.712.12-1.059zM12 19.399 6.081 12H10V4h4v8h3.919L12 19.399z" />
-                    </svg></button>
-                <button class="button-comment"> <svg fill="green" width="24px" height="24px" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,0-1.41A8,8,0,1,1,12,20Z" />
-                    </svg>
-                </button>
+    {{template "header" .}}
+    <div class="container">
+        <div class="header">
+            <h1>Bienvenue sur le Forum</h1>
+            <div class="header-actions">
+                {{if .IsLoggedIn}}
+                <a href="/feeds/user" class="button">Mes Feeds</a>
+                <a href="/feeds/create" class="button primary">Créer un Feed</a>
+                {{else}}
+                <a href="/login" class="button">Se connecter</a>
+                <a href="/signup" class="button primary">S'inscrire</a>
+                {{end}}
             </div>
         </div>
 
-           <div class="block-text">
-            <h3 class="tag">Tag du post </h3>
-            <h1 class="title-post">Title of post</h1>
-            <p class="text-post">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit saepe suscipit quas
-                itaque
-                quasi earum magnam,
-                non aliquam architecto, ab voluptatibus accusamus possimus nam repellendus? Provident cum sint quaerat
-                accusamus?</p>
-            <div class="button-home">
-                <button class="button-like"><svg width="24px" height="24px" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z" />
-                    </svg>
-                </button>
-                <button class="button-dislike"><svg width="24px" height="24px" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M20.901 10.566A1.001 1.001 0 0 0 20 10h-4V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v7H4a1.001 1.001 0 0 0-.781 1.625l8 10a1 1 0 0 0 1.562 0l8-10c.24-.301.286-.712.12-1.059zM12 19.399 6.081 12H10V4h4v8h3.919L12 19.399z" />
-                    </svg></button>
-                <button class="button-comment"> <svg fill="#000000" width="24px" height="24px" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,0-1.41A8,8,0,1,1,12,20Z" />
-                    </svg>
-                </button>
+        <div class="main-content">
+            <div class="welcome-section">
+                <h2>Découvrez les Feeds</h2>
+                <p>Explorez les discussions et partagez vos idées avec la communauté.</p>
+                <a href="/feeds/all" class="button">Voir tous les Feeds</a>
             </div>
+
+            {{if .IsLoggedIn}}
+            <div class="user-info">
+                <p>Connecté en tant que : <strong>{{.Username}}</strong></p>
+                <p>Rôle : <strong>{{.Role}}</strong></p>
+            </div>
+            {{end}}
         </div>
-
-
-
-
-    </main>
-    {{template "footer"}}
+    </div>
+    {{template "footer" .}}
 </body>
 
 </html>

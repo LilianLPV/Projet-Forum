@@ -1,0 +1,144 @@
+{{define "feed"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Feed.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    {{template "header" .}}
+    <div class="container">
+        <div class="feed-header">
+            <h1>{{.Feed.Title}}</h1>
+            <p class="feed-description">{{.Feed.Description}}</p>
+            <div class="feed-meta">
+                <p>Créé le {{.Feed.CreatedDate}} par <strong>{{.Feed.AuthorName}}</strong></p>
+                <p>État: <span class="feed-state {{.Feed.State}}">{{.Feed.State}}</span></p>
+            </div>
+            <div class="feed-tags">
+                {{range .Tags}}
+                <a href="/feeds/tag/{{.Name}}" class="tag">{{.Name}}</a>
+                {{end}}
+            </div>
+            {{if eq .Feed.State "open"}}
+            <button onclick="updateFeedState('closed')" class="button">Fermer le Feed</button>
+            {{else}}
+            <button onclick="updateFeedState('open')" class="button">Ouvrir le Feed</button>
+            {{end}}
+        </div>
+
+        <div class="posts-section">
+            <h2>Posts</h2>
+            <div id="postsList">
+                <!-- Les posts seront ajoutés ici dynamiquement -->
+            </div>
+
+            {{if eq .Feed.State "open"}}
+            <div class="create-post">
+                <h3>Ajouter un post</h3>
+                <form id="createPostForm">
+                    <div class="form-group">
+                        <label for="content">Contenu</label>
+                        <textarea id="content" name="content" required></textarea>
+                    </div>
+                    <button type="submit">Publier</button>
+                </form>
+            </div>
+            {{else}}
+            <div class="feed-closed-message">
+                <p>Ce feed est fermé. Les nouveaux posts ne sont pas autorisés.</p>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    {{template "footer" .}}
+
+    <script>
+        const feedId = {{.Feed.Id}};
+        const currentUserID = {{.CurrentUserID}};
+
+        // Fonction pour charger les posts
+        async function loadPosts() {
+            try {
+                const response = await fetch(`/posts/feed/${feedId}`);
+                if (response.ok) {
+                    const posts = await response.json();
+                    const postsList = document.getElementById('postsList');
+                    postsList.innerHTML = posts.map(post => {
+                        let postHtml = `
+                            <div class="post">
+                                <p class="post-content">${post.Content}</p>
+                                <p class="post-meta">Posté le ${post.Date} par <strong>${post.AuthorName}</strong></p>
+                        `;
+                        if (currentUserID === post.UserID) {
+                            postHtml += `
+                                <div class="post-actions">
+                                    <button class="button edit-post-btn" data-post-id="${post.Id}">Modifier</button>
+                                    <button class="button delete-post-btn" data-post-id="${post.Id}">Supprimer</button>
+                                </div>
+                            `;
+                        }
+                        postHtml += `</div>`;
+                        return postHtml;
+                    }).join('');
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des posts:', error);
+            }
+        }
+
+        // Charger les posts au chargement de la page
+        loadPosts();
+
+        // Gérer la création d'un nouveau post
+        document.getElementById('createPostForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            formData.append('feedId', feedId);
+
+            try {
+                const response = await fetch('/posts/create', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    e.target.reset();
+                    loadPosts();
+                } else {
+                    const error = await response.text();
+                    alert('Erreur: ' + error);
+                }
+            } catch (error) {
+                alert('Erreur lors de la création du post');
+            }
+        });
+
+        // Fonction pour mettre à jour l'état du feed
+        async function updateFeedState(newState) {
+            try {
+                const response = await fetch(`/feeds/${feedId}/state`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ state: newState })
+                });
+                
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    const error = await response.text();
+                    alert('Erreur: ' + error);
+                }
+            } catch (error) {
+                alert('Erreur lors de la mise à jour de l\'état du feed');
+            }
+        }
+    </script>
+</body>
+</html>
+{{end}} 

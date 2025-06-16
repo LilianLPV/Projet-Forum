@@ -1,0 +1,37 @@
+{{define "user_feeds"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Feeds</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    {{template "header" .}}
+    <div class="container">
+        <div class="header">
+            <h1>Mes Feeds</h1>
+            <div class="header-actions">
+                <a href="/feeds/create" class="button">Créer un nouveau Feed</a>
+                <a href="/feeds/all" class="button">Tous les Feeds</a>
+            </div>
+        </div>
+
+        <div class="feeds-list">
+            {{range .Feeds}}
+            <div class="feed-card">
+                <h2>{{.Title}}</h2>
+                <p class="feed-description">{{.Description}}</p>
+                <p class="feed-meta">Créé le {{.CreatedDate}} par <strong>{{.AuthorName}}</strong></p>
+                <div class="feed-actions">
+                    <a href="/feeds/{{.Id}}" class="button">Voir le Feed</a>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    {{template "footer" .}}
+</body>
+</html>
+{{end}} 

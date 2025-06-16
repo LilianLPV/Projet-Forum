@@ -99,6 +99,10 @@ func (c *AccountControllers) LoginForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *AccountControllers) Create(w http.ResponseWriter, r *http.Request) {
+
+	if r.FormValue("password") != r.FormValue("confirm_password") {
+		return
+	}
 	hashedpassword := hash.HashPassword(r.PostFormValue("password"))
 
 	newAccount := models.Account{

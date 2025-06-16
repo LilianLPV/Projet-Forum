@@ -33,6 +33,7 @@ func (s *AccountService) Create(Account models.Account) (int, error) {
 	_, emailErr := s.AccountRepo.ReadByEmail(Account.Email)
 	if emailErr != nil {
 		return -1, fmt.Errorf("Failed to add account - Email already registered")
+
 	}
 
 	AccountId, prodAccountErr := s.AccountRepo.Createaccount(Account)

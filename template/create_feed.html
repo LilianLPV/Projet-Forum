@@ -5,33 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un Feed</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/create-post.css">
 </head>
 <body>
     {{template "header" .}}
     <div class="container">
-        <h1>Créer un nouveau Feed</h1>
+        <h1>Create a new Feed</h1>
         <form id="createFeedForm" action="/feeds" method="POST">
-            <div class="form-group">
-                <label for="title">Titre</label>
-                <input type="text" id="title" name="title" required>
+            <div class="form-container">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label for="title">Titre</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags (séparés par des virgules)</label>
+                        <input type="text" id="tags" name="tags" placeholder="ex: compos, Set14, TFT">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">État</label>
+                        <select id="state" name="state" required>
+                            <option value="open">Ouvert</option>
+                            <option value="closed">Fermé</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-right">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="button primary">Créer le Feed</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="state">État</label>
-                <select id="state" name="state" required>
-                    <option value="open">Ouvert</option>
-                    <option value="closed">Fermé</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="tags">Tags (séparés par des virgules)</label>
-                <input type="text" id="tags" name="tags" placeholder="ex: compos, Set14, TFT">
-            </div>
-            <button type="submit" class="button primary">Créer le Feed</button>
         </form>
     </div>
 
